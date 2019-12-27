@@ -2,6 +2,9 @@
 /node_modules
 /config/db.php
 /web/assets
+/web/css
+/web/js
+/web/fonts
 /web/mix-manifest.json
 composer.phar
 .DS_Store

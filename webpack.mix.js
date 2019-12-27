@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('frontend/app/App.js', 'web/assets/js/app.js');
-mix.less('frontend/assets/components.less', 'web/assets/css/components.css');
-mix.less('frontend/assets/app.less', 'web/assets/css/app.css');
+mix.js('frontend/app/App.js', 'web/js/app.js');
+mix.less('frontend/assets/components.less', 'web/css/components.css');
+mix.less('frontend/assets/app.less', 'web/css/app.css');
 mix.setPublicPath('web/');
