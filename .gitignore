@@ -1,0 +1,7 @@
+/vendor
+/node_modules
+/config/db.php
+/web/assets
+/web/mix-manifest.json
+composer.phar
+.DS_Store
