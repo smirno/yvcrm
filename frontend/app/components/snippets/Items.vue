@@ -1,27 +1,23 @@
 <template>
-    <div id="leads">
+    <div id="items">
         <transition name="fade" mode="out-in">
-            <div v-if="!loading" key="leads" class="content">
-                <div class="leads">
-                    <router-link v-for="lead in leads" :key="lead.id" :to="{name: 'lead', params: { id: lead.id }}" class="leads-item">
-                        <div class="leads-item-name">
-                            {{ lead.name }}
+            <div v-if="!loading" key="contacts" class="contacts">
+                <template v-if="items.length">
+                    <router-link v-for="contact in items" :key="contact.id" :to="{name: 'contact', params: { id: contact.id }}" class="contacts-item">
+                        <div class="contacts-item-name">
+                            {{ contact.fullname }}
                         </div>
-                        <div class="leads-item-contact">{{ lead.contact }}</div>
+                        <div class="contacts-item-leads">{{ leadsCountString(contact.leads) }}</div>
                     </router-link>
-                    <router-link key="new" :to="{name: 'lead', params: { id: 'create' }}" class="leads-item new">
-                        <span>
-                            <i class="glyphicon glyphicon-plus"></i> Новая сделка
-                        </span>
-                    </router-link>
-                </div>
+                </template>
+                <template v-else>
+                    Ничего не найдено!
+                </template>
             </div>
-            <div v-else key="loading" class="content">
-                <div class="leads">
-                    <div v-for="item in preloader" class="leads-item loading">
-                        <span></span>
-                        <span></span>
-                    </div>
+            <div v-else key="loading" class="contacts">
+                <div v-for="item in preloader" class="contacts-item loading">
+                    <span></span>
+                    <span></span>
                 </div>
             </div>
         </transition>
@@ -30,29 +26,23 @@
 
 <script>
     export default {
-        data() {
-            return {
-                leads: {},
-                loading: true,
-                preloader: 10,
+        props: [
+            'items',
+            'loading',
+            'preloader'
+        ],
+        methods: {
+            leadsCountString: function(count) {
+                var declension = Functions.declension(count, ['сделка', 'сделки', 'сделок']);
+                if (count > 0) {
+                    return count + ' ' + declension;
+                } else {
+                    return 'Нет ' + declension;
+                }
             }
         },
-        watch: {
-            // $route: function(to, from) {
-            //     console.log(to, from);
-            // }
-        },
         created: function() {
-            var self = this;
-            Functions.request.get('/app/leads', function(responce) {
-                if (responce) {
-                    self.leads = responce;
-                    self.loading = false;
-                    if (!self.$route.hash) {
-                        self.$router.push({name: 'leads', hash: '#1000'});
-                    }
-                }
-            });
+
         }
     }
 </script>

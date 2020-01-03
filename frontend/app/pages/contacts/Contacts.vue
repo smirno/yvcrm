@@ -27,37 +27,23 @@
                     </router-link>
                 </div>
             </div>
-            <transition name="fade" mode="out-in">
-                <div v-if="!loading" key="contacts" class="contacts">
-                    <template v-if="contacts.length">
-                        <router-link v-for="contact in contacts" :key="contact.id" :to="{name: 'contact', params: { id: contact.id }}" class="contacts-item">
-                            <div class="contacts-item-name">
-                                {{ contact.fullname }}
-                            </div>
-                            <div class="contacts-item-leads">{{ leadsCountString(contact.leads) }}</div>
-                        </router-link>
-                    </template>
-                    <template v-else>
-                        Ничего не найдено!
-                    </template>
-                </div>
-                <div v-else key="loading" class="contacts">
-                    <div v-for="item in preloader" class="contacts-item loading">
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </transition>
+            <contacts 
+                :items="contacts" 
+                :loading="loading"
+                :preloader="preloader"
+            ></contacts>
         </div>
     </div>
 </template>
 
 <script>
     import Text from './../../components/fields/Text';
+    import Items from './../../components/snippets/Items';
 
     export default {
         components: {
-            'field-text': Text
+            'field-text': Text,
+            'contacts': Items,
         },
         data() {
             return {
@@ -118,7 +104,7 @@
                     if (responce) {
                         self.contacts = responce;
                         self.loading = false;
-                        self.preloader = self.contacts.length + 1;
+                        self.preloader = self.contacts.length;
                     }
                 }, function(responce) {
                     self.contacts = {};

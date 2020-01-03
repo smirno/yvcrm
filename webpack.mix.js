@@ -11,7 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('frontend/app/App.js', 'web/js/app.js');
-mix.less('frontend/assets/components.less', 'web/css/components.css');
-mix.less('frontend/assets/app.less', 'web/css/app.css');
-mix.setPublicPath('web/');
+// Disable mix-manifest.json
+Mix.manifest.refresh = function() {
+    return void 0;
+}
+
+mix.setPublicPath('web/assets/');
+mix.setResourceRoot('../');
+
+mix.js('frontend/app/App.js', 'web/assets/js/app.js').extract(['vue', 'vue-router', 'axios']);
+mix.less('frontend/assets/components.less', 'web/assets/css/components.css');
+mix.less('frontend/assets/app.less', 'web/assets/css/app.css');
