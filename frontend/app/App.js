@@ -3,13 +3,21 @@ import VueRouter from 'vue-router';
 import Axios from 'axios';
 
 import Functions from './Functions.js';
+import Language from './Language.js';
 import Router from './Routes.js';
 
-Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+var Helpers = {
+    install: function(Vue, options) {
+        Vue.prototype.Language = Language;
+        Vue.prototype.Functions = Functions;
+    }
+};
 
 Vue.use(VueRouter);
+Vue.use(Helpers);
 
 window.Functions = Functions;
+window.Language = Language;
 window.Vue = Vue;
 window.Axios = Axios;
 

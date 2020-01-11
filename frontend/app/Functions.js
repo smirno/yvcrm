@@ -42,6 +42,7 @@ var Functions = {
         },
         axios: function(url, method, success, error, data = null) {
 
+            Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
             Axios.defaults.headers.common['X-CSRF-Token'] = CSFR;
 
             var request = {

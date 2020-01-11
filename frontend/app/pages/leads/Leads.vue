@@ -3,7 +3,7 @@
         <div class="content">
             <snippet-items :items="leads" :loading="loading" :preloader="preloader" link-name="lead">
                 <template #title="{item: lead}">
-                    {{ lead.name }}
+                    {{ lead.name ? lead.name : 'Нет названия' }}
                 </template>
                 <template #description="{item: lead}">
                     {{ lead.contact }}

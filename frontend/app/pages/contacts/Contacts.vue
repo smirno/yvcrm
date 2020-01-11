@@ -10,7 +10,7 @@
                     {{ leadsCountString(contact.leads) }}
                 </template>
                 <template #empty>
-                    Ничего не найдено!
+                    {{ Language.get('contacts.items.not-found', 'Not found!') }}
                 </template>
             </snippet-items>
         </div>
@@ -37,24 +37,24 @@
                         value: 1,
                         buttons: {
                             all: {
-                                label: 'Все'
+                                label: Language.get('contacts.filters.status.buttons.all', 'All')
                             },
                             0: {
-                                label: 'Архив'
+                                label: Language.get('contacts.filters.status.buttons.archive', 'Archive')
                             }, 
                             1: {
-                                label: 'Активные'
+                                label: Language.get('contacts.filters.status.buttons.active', 'Active')
                             }
                         }
                     },
                     search: {
                         type: 'text',
                         value: '',
-                        label: 'Поиск'
+                        label: Language.get('contacts.filters.search.label', 'Search')
                     },
                     create: {
                         type: 'link',
-                        label: 'Новый контакт',
+                        label: Language.get('contacts.filters.create.label', 'Create contact'),
                         to: {
                             name: 'contact',
                             params: {
@@ -99,17 +99,17 @@
                 });
             },
             leadsCountString: function(count) {
-                var declension = Functions.declension(count, ['сделка', 'сделки', 'сделок']);
+                var declension = Functions.declension(count, Language.get('contacts.items.item.leads', ['lead', 'leads', 'leads'], true));
                 if (count > 0) {
                     return count + ' ' + declension;
                 } else {
-                    return 'Нет ' + declension;
+                    return Language.get('contacts.items.item.no-leads', 'No') + ' ' + declension;
                 }
             }
         },
         created: function() {
-            document.title = 'Контакты';
-            var local = Functions.local.get('contacts-filters');
+            document.title = Language.get('contacts.title', 'Contacts');
+            // var local = Functions.local.get('contacts-filters');
             // if (local) {
             //     this.filters = local;
             // } else {
