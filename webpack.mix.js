@@ -20,5 +20,5 @@ mix.setPublicPath('web/assets/');
 mix.setResourceRoot('../');
 
 mix.js('frontend/app/App.js', 'web/assets/js/app.js').extract(['vue', 'vue-router', 'axios']);
-mix.less('frontend/assets/components.less', 'web/assets/css/components.css');
+mix.less('frontend/assets/vendor.less', 'web/assets/css/vendor.css');
 mix.less('frontend/assets/app.less', 'web/assets/css/app.css');

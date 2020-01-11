@@ -1,27 +1,27 @@
 <template>
-    <div id="items">
-        <transition name="fade" mode="out-in">
-            <div v-if="!loading" key="contacts" class="contacts">
-                <template v-if="items.length">
-                    <router-link v-for="contact in items" :key="contact.id" :to="{name: 'contact', params: { id: contact.id }}" class="contacts-item">
-                        <div class="contacts-item-name">
-                            {{ contact.fullname }}
-                        </div>
-                        <div class="contacts-item-leads">{{ leadsCountString(contact.leads) }}</div>
-                    </router-link>
-                </template>
-                <template v-else>
-                    Ничего не найдено!
-                </template>
+    <transition name="fade" mode="out-in">
+        <div v-if="!loading" key="items" class="items">
+            <template v-if="items.length">
+                <router-link v-for="item in items" :key="item.id" :to="{name: linkName, params: { id: item.id }}" class="items-item">
+                    <div class="items-item-title">
+                        <slot name="title" :item="item"></slot>
+                    </div>
+                    <div class="items-item-description">
+                        <slot name="description" :item="item"></slot>
+                    </div>
+                </router-link>
+            </template>
+            <template v-else>
+                <slot name="empty"></slot>
+            </template>
+        </div>
+        <div v-else key="loading" class="items">
+            <div v-for="item in preloader" class="items-item loading">
+                <span></span>
+                <span></span>
             </div>
-            <div v-else key="loading" class="contacts">
-                <div v-for="item in preloader" class="contacts-item loading">
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </transition>
-    </div>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -29,20 +29,8 @@
         props: [
             'items',
             'loading',
-            'preloader'
-        ],
-        methods: {
-            leadsCountString: function(count) {
-                var declension = Functions.declension(count, ['сделка', 'сделки', 'сделок']);
-                if (count > 0) {
-                    return count + ' ' + declension;
-                } else {
-                    return 'Нет ' + declension;
-                }
-            }
-        },
-        created: function() {
-
-        }
+            'preloader',
+            'link-name'
+        ]
     }
 </script>

@@ -1,35 +1,30 @@
 <template>
     <div id="leads">
-        <transition name="fade" mode="out-in">
-            <div v-if="!loading" key="leads" class="content">
-                <div class="leads">
-                    <router-link v-for="lead in leads" :key="lead.id" :to="{name: 'lead', params: { id: lead.id }}" class="leads-item">
-                        <div class="leads-item-name">
-                            {{ lead.name }}
-                        </div>
-                        <div class="leads-item-contact">{{ lead.contact }}</div>
-                    </router-link>
-                    <router-link key="new" :to="{name: 'lead', params: { id: 'create' }}" class="leads-item new">
-                        <span>
-                            <i class="glyphicon glyphicon-plus"></i> Новая сделка
-                        </span>
-                    </router-link>
-                </div>
-            </div>
-            <div v-else key="loading" class="content">
-                <div class="leads">
-                    <div v-for="item in preloader" class="leads-item loading">
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
-        </transition>
+        <div class="content">
+            <snippet-items :items="leads" :loading="loading" :preloader="preloader" link-name="lead">
+                <template #title="{item: lead}">
+                    {{ lead.name }}
+                </template>
+                <template #description="{item: lead}">
+                    {{ lead.contact }}
+                </template>
+                <template #empty>
+                    Ничего не найдено!
+                </template>
+            </snippet-items>
+        </div>
     </div>
 </template>
 
 <script>
+    import Filters from './../../components/snippets/Filters';
+    import Items from './../../components/snippets/Items';
+
     export default {
+        components: {
+            'snippet-filters': Filters,
+            'snippet-items': Items,
+        },
         data() {
             return {
                 leads: {},

@@ -1,25 +1,25 @@
 <template>
-	<div class="field text" :class="{'not-label': !field.label}">
-        <input 
-            v-model="field.value" 
-            :type="field.type" 
+    <div class="field text" :class="{'not-label': !label}">
+        <input
+            v-model="field.value"
+            ref="input"
+            :type="field.type"
             :class="{'not-empty': field.value != ''}"
             :placeholder="placeholder ? field.label : false"
         >
         <div v-if="clear && field.value" @click="field.value = ''" class="field-clear"></div>
         <label v-if="label">{{field.label}}</label>
-        
     </div>
 </template>
 
 <script>
     export default {
-    	props: [
-            'field', 
+        props: [
+            'field',
             'placeholder',
             'clear'
         ],
-    	name: 'field-text',
+        name: 'field-text',
         data() {
             return {}
         },
@@ -31,6 +31,12 @@
                     return true;
                 }
             }
-        }
+        },
+        methods: {
+            focus: function() {
+                this.$refs.input.focus();
+            }
+        },
+        created: function() {}
     }
 </script>
