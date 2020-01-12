@@ -79,7 +79,7 @@ var Functions = {
 
                 }
             }).catch(function (response) {
-                console.log('Что то пошло не так!');
+                console.log('Something went wrong!');
                 console.log(response);
             });
         }

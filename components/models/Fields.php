@@ -1,6 +1,6 @@
 <?php
 
-namespace app\components;
+namespace app\components\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -8,7 +8,7 @@ use yii\helpers\ArrayHelper;
 use app\models\base\Field;
 use app\models\base\Value;
 
-class FieldsModel extends \yii\base\DynamicModel
+class Fields extends \yii\base\DynamicModel
 {
     private $_essence;
     private $_labels = [];

@@ -54,8 +54,13 @@ class AppController extends Controller
         ];
     }
 
+    public function actionTranslation($language)
+    {
+        return $this->renderJson(true, $this->translation->getTranslation());
+    }
+
     public function actionApp($render = 'false')
     {
-        return $this->render('app', ['render' => $render]);
+        return $this->renderApp($render);
     }
 }

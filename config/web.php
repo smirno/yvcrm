@@ -19,6 +19,9 @@ $config = [
         'controller' => [
             'class' => 'app\components\extended\Controller',
         ],
+        'translation' => [
+            'class' => 'app\components\Translation',
+        ],
         'assetManager' => [
             'appendTimestamp' => true,
         ],
@@ -62,6 +65,7 @@ $config = [
                 'app' => 'app',
                 'app/dashboard' => 'app',
                 'app/contacts' => 'contacts',
+                'app/contacts/filters' => 'contacts/filters',
                 'app/contacts/<id>' => 'contact',
                 'app/leads' => 'leads',
                 'app/leads/<id>' => 'lead',

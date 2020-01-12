@@ -3,13 +3,49 @@
 namespace app\models;
 
 use Yii;
-use \yii\base\Model;
 use \yii\helpers\StringHelper;
 
+use app\components\extended\Model;
 use app\models\base\Contact;
 
 class ContactsPage extends Model
 {
+    public function getFilters()
+    {
+        $filters = [
+            'status' => [
+                'type' => 'radio',
+                'value' => 1,
+                'buttons' => [
+                    'all' => [
+                        'label' => $this->translation->get('app.contacts.filters.status.buttons.all', 'All')
+                    ],
+                    '0' => [
+                        'label' => $this->translation->get('app.contacts.filters.status.buttons.archive', 'Archive')
+                    ], 
+                    '1' => [
+                        'label' => $this->translation->get('app.contacts.filters.status.buttons.active', 'Active')
+                    ]
+                ]
+            ],
+            'search' => [
+                'type' => 'text',
+                'value' => '',
+                'label' => $this->translation->get('app.contacts.filters.search.label', 'Search')
+            ],
+            'create' => [
+                'type' => 'link',
+                'label' => $this->translation->get('app.contacts.filters.create.label', 'Create contact'),
+                'to' => [
+                    'name' => 'contact',
+                    'params' => ['id' => 'create']
+                ]
+            ]
+        ];
+
+        return $filters;
+    }
+
     public function getContacts($filters)
     {
         $contacts = Contact::find()->joinWith(['leads'], true, 'LEFT JOIN');

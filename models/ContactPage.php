@@ -4,10 +4,10 @@ namespace app\models;
 
 use Yii;
 
-use app\components\FieldsModel;
+use app\components\models\Fields;
 use app\models\base\Contact;
 
-class ContactPage extends FieldsModel
+class ContactPage extends Fields
 {
 
     public function __construct($contact, $config = [])

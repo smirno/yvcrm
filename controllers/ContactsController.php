@@ -38,6 +38,7 @@ class ContactsController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'contacts' => ['get'],
+                    'filters' => ['get'],
                 ],
             ]
         ];
@@ -53,6 +54,24 @@ class ContactsController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ]
         ];
+    }
+
+    public function actionFilters()
+    {
+        if (!$this->isAjax()) {
+            return $this->renderApp();
+        }
+
+        $page = new ContactsPage;
+        $filters = $page->getFilters();
+
+        if ($filters) {
+            return $this->renderJson(true, $filters);
+        } else {
+            return $this->renderJson(false, [
+                'message' => 'Фильтры не найдены!'
+            ]);
+        }
     }
 
     public function actionContacts()

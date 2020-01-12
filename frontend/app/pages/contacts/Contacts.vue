@@ -10,7 +10,7 @@
                     {{ leadsCountString(contact.leads) }}
                 </template>
                 <template #empty>
-                    {{ Language.get('contacts.items.not-found', 'Not found!') }}
+                    {{ Translation.get('app.contacts.items.not-found', 'Not found!') }}
                 </template>
             </snippet-items>
         </div>
@@ -28,41 +28,10 @@
         },
         data() {
             return {
+                filters: {},
                 contacts: {},
                 loading: true,
-                preloader: 17,
-                filters: {
-                    status: {
-                        type: 'radio',
-                        value: 1,
-                        buttons: {
-                            all: {
-                                label: Language.get('contacts.filters.status.buttons.all', 'All')
-                            },
-                            0: {
-                                label: Language.get('contacts.filters.status.buttons.archive', 'Archive')
-                            }, 
-                            1: {
-                                label: Language.get('contacts.filters.status.buttons.active', 'Active')
-                            }
-                        }
-                    },
-                    search: {
-                        type: 'text',
-                        value: '',
-                        label: Language.get('contacts.filters.search.label', 'Search')
-                    },
-                    create: {
-                        type: 'link',
-                        label: Language.get('contacts.filters.create.label', 'Create contact'),
-                        to: {
-                            name: 'contact',
-                            params: {
-                                id: 'create'
-                            }
-                        }
-                    }
-                }
+                preloader: 17
             }
         },
         watch: {
@@ -75,6 +44,25 @@
             },
         },
         methods: {
+            getFilters: function() {
+                var self = this,
+                    local = Functions.local.get('contacts-filters');
+
+                Functions.request.get('/app/contacts/filters', {}, function(responce) {
+                    if (responce) {
+                        self.filters = responce;
+                        if (local) {
+                            for (var filter in self.filters) {
+                                if (local[filter]) {
+                                    self.filters[filter].value = local[filter].value;
+                                }
+                            }
+                        }
+                    }
+                }, function(responce) {
+                    self.getContacts();
+                });
+            },
             getContacts: function() {
                 var self = this,
                     filters = {};
@@ -99,23 +87,19 @@
                 });
             },
             leadsCountString: function(count) {
-                var declension = Functions.declension(count, Language.get('contacts.items.item.leads', ['lead', 'leads', 'leads'], true));
+                var translation = Translation.get('app.contacts.items.item.leads', ['lead', 'leads', 'leads']),
+                    declension = Functions.declension(count, translation);
+
                 if (count > 0) {
                     return count + ' ' + declension;
                 } else {
-                    return Language.get('contacts.items.item.no-leads', 'No') + ' ' + declension;
+                    return Translation.get('app.contacts.items.item.no-leads', 'No {leads}', {'leads': declension});
                 }
             }
         },
         created: function() {
-            document.title = Language.get('contacts.title', 'Contacts');
-            // var local = Functions.local.get('contacts-filters');
-            // if (local) {
-            //     this.filters = local;
-            // } else {
-            //     this.getContacts();
-            // }
-            this.getContacts();
+            document.title = Translation.get('app.contacts.title', 'Contacts');
+            this.getFilters();
         }
     }
 </script>

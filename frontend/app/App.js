@@ -3,23 +3,23 @@ import VueRouter from 'vue-router';
 import Axios from 'axios';
 
 import Functions from './Functions.js';
-import Language from './Language.js';
+import Translation from './Translation.js';
 import Router from './Routes.js';
 
+window.Functions = Functions;
+window.Translation = Translation;
+window.Vue = Vue;
+window.Axios = Axios;
+
 var Helpers = {
-    install: function(Vue, options) {
-        Vue.prototype.Language = Language;
+    install: function() {
+        Vue.prototype.Translation = Translation;
         Vue.prototype.Functions = Functions;
     }
 };
 
-Vue.use(VueRouter);
 Vue.use(Helpers);
-
-window.Functions = Functions;
-window.Language = Language;
-window.Vue = Vue;
-window.Axios = Axios;
+Vue.use(VueRouter);
 
 var App = new Vue({
     el: '#app',
@@ -28,6 +28,11 @@ var App = new Vue({
     methods: {
         isActive: function(name) {
             return this.$route.name == name;
+        }
+    },
+    created: function() {
+        if (Object.entries(Translation.slugs).length === 0) {
+            Translation.translation.get();
         }
     }
 });

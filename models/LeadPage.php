@@ -5,11 +5,11 @@ namespace app\models;
 use Yii;
 use yii\helpers\VarDumper;
 
-use app\components\FieldsModel;
+use app\components\models\Fields;
 use app\models\base\Lead;
 use app\models\base\Contact;
 
-class LeadPage extends FieldsModel
+class LeadPage extends Fields
 {
 
     private $contact;

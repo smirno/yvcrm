@@ -5,16 +5,20 @@ namespace app\components\extended;
 use Yii;
 use yii\helpers\Json;
 
+use app\components\Translation;
+
 class Controller extends \yii\web\Controller
 {
 
     public $request;
     public $response;
+    public $translation;
 
     public function init()
     {   
         $this->request = Yii::$app->request;
         $this->response = Yii::$app->response;
+        $this->translation = Yii::$app->translation;
 
         $this->request->csrfParam = 'csrf';
     }
