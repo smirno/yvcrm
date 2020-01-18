@@ -3,7 +3,6 @@
 namespace app\models;
 
 use Yii;
-use \yii\helpers\StringHelper;
 
 use app\components\extended\Model;
 use app\models\base\Contact;

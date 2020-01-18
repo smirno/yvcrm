@@ -3,10 +3,9 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
+use yii\filters\AjaxFilter;
 
 use app\components\extended\Controller;
 use app\models\ContactsPage;
@@ -40,6 +39,10 @@ class ContactsController extends Controller
                     'contacts' => ['get'],
                     'filters' => ['get'],
                 ],
+            ],
+            'ajax' => [
+                'class' => AjaxFilter::className(),
+                'only' => ['filters'],
             ]
         ];
     }
@@ -58,10 +61,6 @@ class ContactsController extends Controller
 
     public function actionFilters()
     {
-        if (!$this->isAjax()) {
-            return $this->renderApp();
-        }
-
         $page = new ContactsPage;
         $filters = $page->getFilters();
 

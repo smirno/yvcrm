@@ -31,7 +31,7 @@ var App = new Vue({
         }
     },
     created: function() {
-        if (Object.entries(Translation.slugs).length === 0) {
+        if (Translation.language === false) {
             Translation.translation.get();
         }
     }

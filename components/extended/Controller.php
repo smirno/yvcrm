@@ -47,6 +47,7 @@ class Controller extends \yii\web\Controller
         $response = [
             'csrf' => $this->request->csrfToken,
             'status' => $status,
+            'lang' => $this->translation->get('app.test.test', 'Hello, {username}!', ['username' => 'test']),
             'data' => $data
         ];
 

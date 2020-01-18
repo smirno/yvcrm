@@ -3,12 +3,13 @@
 namespace app\components\models;
 
 use Yii;
+use yii\base\DynamicModel;
 use yii\helpers\ArrayHelper;
 
 use app\models\base\Field;
 use app\models\base\Value;
 
-class Fields extends \yii\base\DynamicModel
+class Fields extends DynamicModel
 {
     private $_essence;
     private $_labels = [];

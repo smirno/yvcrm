@@ -2,16 +2,14 @@
 
 namespace app\components;
 
-use \RecursiveIteratorIterator;
-use \RecursiveArrayIterator;
-
 use Yii;
+use yii\base\Component;
 use yii\helpers\Json;
 
-class Translation extends \yii\base\Component
+class Translation extends Component
 {
     const FOLDER = '/translation/';
-    const DEFAULT = 'en-En';
+    const DEFAULT = 'en-US';
 
     private $_language;
     private $_translation;
@@ -20,7 +18,6 @@ class Translation extends \yii\base\Component
     {
         $language = Yii::$app->language;
         $translation = Yii::getAlias('@app') . self::FOLDER . $language . '.json';
-        $slugs = [];
 
         if (file_exists($translation)) {
             $translation = Json::decode(file_get_contents($translation));
@@ -49,7 +46,7 @@ class Translation extends \yii\base\Component
         }
 
         if ($params) {
-            true;
+            return Yii::t('app', $found, $params);
         }
 
         return $found;

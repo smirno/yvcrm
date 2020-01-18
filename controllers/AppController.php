@@ -3,10 +3,9 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Response;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
+use yii\filters\AjaxFilter;
 
 use app\components\extended\Controller;
 
@@ -36,8 +35,13 @@ class AppController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'app'  => ['get'],
+                    'translation' => ['get'],
+                    'app' => ['get'],
                 ],
+            ],
+            'ajax' => [
+                'class' => AjaxFilter::className(),
+                'only' => ['translation'],
             ]
         ];
     }
@@ -54,7 +58,7 @@ class AppController extends Controller
         ];
     }
 
-    public function actionTranslation($language)
+    public function actionTranslation()
     {
         return $this->renderJson(true, $this->translation->getTranslation());
     }

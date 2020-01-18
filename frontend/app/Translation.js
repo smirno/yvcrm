@@ -1,23 +1,19 @@
 var Translation = {
-    language: true,
+    language: false,
     slugs: {},
     translation: {
         set: function() {},
         get: function() {
-            if (Translation.language) {
-                var params = {'language': Translation.language}
+            Functions.request.get('/app/translation', {}, function(responce) {
+                if (responce) {
+                    Translation.language = responce.language;
+                    Translation.slugs = responce.slugs;
 
-                Functions.request.get('/app/translation', params, function(responce) {
-                    if (responce) {
-                        Translation.language = responce.language;
-                        Translation.slugs = responce.slugs;
-
-                        console.log('Current language - ' + Translation.language);
-                    }
-                }, function(responce) {
-                    Translation.slugs = {};
-                });
-            }
+                    console.log('Current language - ' + Translation.language);
+                }
+            }, function(responce) {
+                Translation.slugs = {};
+            });
         }
     },
     get: function(slug, found, params) {
