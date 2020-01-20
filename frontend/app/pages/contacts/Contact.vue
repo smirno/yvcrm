@@ -3,13 +3,14 @@
         <transition name="fade" mode="out-in">
             <div v-if="!loading" key="contact" class="content">
                 <div class="sidebar">
-                    <div class="head">
+                    <div class="head" v-if="fields.firstname.value || fields.lastname.value">
                         <div class="head-title">{{fields.firstname.value}} {{fields.lastname.value}}</div>
                     </div>
                     <div class="fields">
                         <field-text v-for="(field, index) in fields"
                             :clear="true"
                             :key="index"
+                            class="small"
                             :field="field">
                         </field-text>
                         <transition name="fade">
@@ -19,14 +20,14 @@
                                 </div>
                                 <div class="fields-save-buttons">
                                     <div class="fields-save-buttons-item save">
-                                        <div @click="save()" class="button black">
+                                        <div @click="save()" class="button black small">
                                             <button>
                                                 <!-- <i class="glyphicon glyphicon-ok"></i> --> Сохранить
                                             </button>
                                         </div>
                                     </div>
                                     <div class="fields-save-buttons-item cancel">
-                                        <div @click="reset()" class="button transparent">
+                                        <div @click="reset()" class="button transparent small">
                                             <button>
                                                 <!-- <i class="glyphicon glyphicon-remove"></i> --> Отменить
                                             </button>

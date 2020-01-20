@@ -7,7 +7,8 @@
         height: 45px;
         font-size: 18px;
         border: none;
-        border-radius: 4px;
+        border-radius: var(--border-radius);
+        color: var(--field-active-font-color);
         background: transparent;
         transition: all 0.15s;
         outline: none;
@@ -16,8 +17,8 @@
 
     &.black {
         button {
-            background: #333333;
-            color: #ffffff;
+            background: var(--field-active-background-color);
+            color: var(--field-active-font-color);
 
             &:hover {
                 opacity: 0.8;
@@ -28,10 +29,12 @@
     &.transparent {
         width: 100%;
         text-align: center;
+        border-radius: var(--border-radius);
 
         button {
             opacity: 1;
             font-weight: 300;
+            border: 1px solid var(--field-active-border-color);
 
             &:hover {
                 opacity: 0.8;

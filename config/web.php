@@ -8,6 +8,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'ru-RU',
+    // 'language' => 'en-US',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -19,8 +20,16 @@ $config = [
         'controller' => [
             'class' => 'app\components\extended\Controller',
         ],
-        'translation' => [
-            'class' => 'app\components\Translation',
+        'i18n' => [
+            'class' => 'app\components\extended\I18N',
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@app/translations'
+                ]
+            ]
+
         ],
         'assetManager' => [
             'appendTimestamp' => true,
@@ -74,6 +83,8 @@ $config = [
         
     ]
 ];
+
+define('DS', DIRECTORY_SEPARATOR);
 
 if (YII_DEBUG) {
     $config['bootstrap'][] = 'debug';

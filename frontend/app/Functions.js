@@ -1,3 +1,5 @@
+import Axios from 'axios';
+
 var Functions = {
     json: {
         encode: function(obj) {
@@ -59,7 +61,6 @@ var Functions = {
             }
 
             Axios(request).then(function (response) {
-                // console.log(response);
                 var response = response.data;
                 if (response != null) {
 
@@ -108,9 +109,18 @@ var Functions = {
     copy: function(obj) {
         return Functions.json.decode(Functions.json.encode(obj));
     },
-    declension: function(number, titles) {  
+    declension: function(number, titles) {
         var cases = [2, 0, 1, 1, 1, 2];  
-        return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];  
+        return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+    },
+    theme: function(theme = false) {
+        if (theme) {
+            if (['dark-mode', 'light-mode'].includes(theme)) {
+                return document.documentElement.setAttribute('theme', theme);
+            }
+        } else {
+            return document.documentElement.getAttribute('theme');
+        }
     }
 };
 

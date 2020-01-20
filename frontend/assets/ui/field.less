@@ -22,7 +22,7 @@
             top: 50%;
             width: 50%;
             height: 1px;
-            background: #333333;
+            background: var(--field-border-color);
             transform: translateX(-50%) translateY(-50%) rotate(45deg);
         }
         &:after {
@@ -32,7 +32,7 @@
             top: 50%;
             width: 50%;
             height: 1px;
-            background: #333333;
+            background: var(--field-border-color);
             transform: translateX(-50%) translateY(-50%) rotate(-45deg);
         }
     }
@@ -52,7 +52,7 @@
             height: 100%;
             display: flex;
             height: 45px;
-            color: #34495e;
+            color: var(--field-font-color);
 
             button {
                 height: 45px;
@@ -61,26 +61,27 @@
                 border: none;
                 font-size: 16px;
                 transition: all 0.15s;
-                border: 1px solid #f3f3f3;
+                border: 1px solid var(--field-border-color);
                 border-left: none;
                 outline: none;
                 cursor: pointer;
+                color: var(--field-font-color);
 
                 &:first-of-type {
-                    border-left: 1px solid #f3f3f3;
-                    border-radius: 4px 0 0 4px;
+                    border-left: 1px solid var(--field-border-color);
+                    border-radius: var(--border-radius) 0 0 var(--border-radius);
                 }
 
                 &:last-of-type {
                     border-left: none;
-                    border-radius: 0 4px 4px 0;
+                    border-radius: 0 var(--border-radius) var(--border-radius) 0;
                 }
 
                 &:hover,
                 &.active {
-                    background: #333333;
-                    border-color: #333333;
-                    color: #ffffff;
+                    background: var(--field-active-background-color);
+                    border-color: var(--field-active-border-color);
+                    color: var(--field-active-font-color);
                     z-index: 1;
                 }
 
@@ -100,17 +101,19 @@
             width: 100%;
             height: 45px;
             padding: 5px 15px;
-            border: 1px solid #f3f3f3;
-            border-radius: 4px;
-            color: #34495e;
+            border: 1px solid var(--field-border-color);
+            border-radius: var(--border-radius);
+            color: var(--field-font-color);
+            background: var(--field-background-color);
             font-weight: 300;
             outline: none;
+            background: transparent;
 
             &:focus {
-                border-color: #bdc3c7;
+                border-color: var(--field-active-border-color);
 
                 ~ .field-clear {
-                    opacity: 0.5;
+                    opacity: 1;
                 }
             }
 
@@ -171,7 +174,7 @@
                         height: 15px;
                         padding: 0 5px;
                         margin-left: 10px;
-                        background: #ffffff;
+                        background: var(--block-background-color);
                         line-height: 15px;
                         top: -9px;
                     }
@@ -196,7 +199,7 @@
 
     &:hover {
         .field-clear {
-            opacity: 0.5;
+            opacity: 1;
         }
     }
 }

@@ -5,20 +5,18 @@ namespace app\components\extended;
 use Yii;
 use yii\helpers\Json;
 
-use app\components\Translation;
-
 class Controller extends \yii\web\Controller
 {
 
     public $request;
     public $response;
-    public $translation;
+    public $i18n;
 
     public function init()
     {   
         $this->request = Yii::$app->request;
         $this->response = Yii::$app->response;
-        $this->translation = Yii::$app->translation;
+        $this->i18n = Yii::$app->i18n;
 
         $this->request->csrfParam = 'csrf';
     }
@@ -42,12 +40,17 @@ class Controller extends \yii\web\Controller
 
     public function renderJson($status, $data)
     {
+        // if ($status === true) {
+        //     $status = 200;
+        // } else if(!is_int($status)) {
+        //     $status = 404;
+        // }
+        
         $this->response->format = $this->response::FORMAT_JSON;
 
         $response = [
             'csrf' => $this->request->csrfToken,
             'status' => $status,
-            'lang' => $this->translation->get('app.test.test', 'Hello, {username}!', ['username' => 'test']),
             'data' => $data
         ];
 

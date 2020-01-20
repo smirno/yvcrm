@@ -12,7 +12,27 @@
                 </router-link>
             </template>
             <template v-else>
-                <slot name="empty"></slot>
+                <div v-for="item in 5" class="items-item loading">
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="items-item not-empty">
+                    <div class="items-item-title">
+                        <slot name="empty"></slot>
+                    </div>
+                    <div class="items-item-description">
+                        {{ I18N.get('Change your search terms and try again.') }}
+                    </div>
+                    <div v-if="search" class="items-item-action">
+                        <div class="button black small">
+                            <button @click="clearSearch()">{{ I18N.get('Clear search field') }}</button>                        
+                        </div>
+                    </div>
+                </div>
+                <div v-for="item in 10" class="items-item loading">
+                    <span></span>
+                    <span></span>
+                </div>
             </template>
         </div>
         <div v-else key="loading" class="items">
@@ -28,9 +48,17 @@
     export default {
         props: [
             'items',
+            'search',
             'loading',
             'preloader',
             'link-name'
-        ]
+        ],
+        methods: {
+            clearSearch: function() {
+                if (this.search) {
+                    this.search.value = '';
+                }
+            }
+        }
     }
 </script>

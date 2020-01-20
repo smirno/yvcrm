@@ -1,8 +1,8 @@
 <template>
     <div id="contacts">
         <div class="content">
-            <snippet-filters :filters="filters" key-press-focus="search" size="small"></snippet-filters>
-            <snippet-items :items="contacts" :loading="loading" :preloader="preloader" link-name="contact">
+            <snippet-filters :filters="filters" size="small"></snippet-filters>
+            <snippet-items :items="contacts" :search="search" :loading="loading" :preloader="preloader" link-name="contact">
                 <template #title="{item: contact}">
                     {{ contact.fullname }}
                 </template>
@@ -10,7 +10,7 @@
                     {{ leadsCountString(contact.leads) }}
                 </template>
                 <template #empty>
-                    {{ Translation.get('app.contacts.items.not-found', 'Not found!') }}
+                    {{ I18N.get('Contacts not found!') }}
                 </template>
             </snippet-items>
         </div>
@@ -34,6 +34,15 @@
                 preloader: 17
             }
         },
+        computed: {
+            search: function() {
+                if (this.filters.search != undefined) {
+                    return this.filters.search;
+                }
+
+                return false;
+            }
+        },
         watch: {
             filters: {
                 handler: function() {
@@ -49,8 +58,8 @@
                     local = Functions.local.get('contacts-filters');
 
                 Functions.request.get('/app/contacts/filters', {}, function(responce) {
-                    if (responce) {
-                        self.filters = responce;
+                    if (responce.filters) {
+                        self.filters = responce.filters;
                         if (local) {
                             for (var filter in self.filters) {
                                 if (local[filter]) {
@@ -76,10 +85,10 @@
                 }
 
                 Functions.request.get('/app/contacts', filters, function(responce) {
-                    if (responce) {
-                        self.contacts = responce;
+                    if (responce.contacts) {
+                        self.contacts = responce.contacts;
+                        self.preloader = responce.contacts.length;
                         self.loading = false;
-                        self.preloader = self.contacts.length;
                     }
                 }, function(responce) {
                     self.contacts = {};
@@ -87,18 +96,10 @@
                 });
             },
             leadsCountString: function(count) {
-                var translation = Translation.get('app.contacts.items.item.leads', ['lead', 'leads', 'leads']),
-                    declension = Functions.declension(count, translation);
-
-                if (count > 0) {
-                    return count + ' ' + declension;
-                } else {
-                    return Translation.get('app.contacts.items.item.no-leads', 'No {leads}', {'leads': declension});
-                }
+                return I18N.get('{leads, plural, =0{No leads} =1{1 lead} other{# leads}}', {'leads': count});
             }
         },
         created: function() {
-            document.title = Translation.get('app.contacts.title', 'Contacts');
             this.getFilters();
         }
     }

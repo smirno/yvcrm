@@ -11,10 +11,6 @@ var Lead = require('./pages/leads/Lead.vue').default;
 var Router = new VueRouter({
     mode: 'history',
     routes: [
-        // {
-        //     path: '/app',
-        //     redirect: '/app/dashboard'
-        // },
         {
             component: Dashboard,
             path: '/app/dashboard',

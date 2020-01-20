@@ -27,23 +27,29 @@
         },
         props: [
             'filters',
-            'key-press-focus',
             'size'
         ],
+        computed: {
+            search: function() {
+                if (this.filters.search != undefined) {
+                    return true;
+                }
+
+                return false;
+            }
+        },
         methods: {
             keyPress: function() {
-                this.$refs[this.keyPressFocus][0].focus();
+                if (this.search) {
+                    this.$refs.search[0].focus();
+                }
             }
         },
         mounted: function() {
-            if (this.keyPressFocus != undefined) {
-                window.addEventListener('keypress', this.keyPress);
-            }
+            window.addEventListener('keypress', this.keyPress);
         },
         beforeDestroy: function() {
-            if (this.keyPressFocus != undefined) {
-                window.removeEventListener('keypress', this.keyPress);
-            }
+            window.removeEventListener('keypress', this.keyPress);
         }
     }
 </script>

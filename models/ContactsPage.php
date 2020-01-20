@@ -17,24 +17,24 @@ class ContactsPage extends Model
                 'value' => 1,
                 'buttons' => [
                     'all' => [
-                        'label' => $this->translation->get('app.contacts.filters.status.buttons.all', 'All')
+                        'label' => $this->i18n->get('All')
                     ],
                     '0' => [
-                        'label' => $this->translation->get('app.contacts.filters.status.buttons.archive', 'Archive')
+                        'label' => $this->i18n->get('Archive')
                     ], 
                     '1' => [
-                        'label' => $this->translation->get('app.contacts.filters.status.buttons.active', 'Active')
+                        'label' => $this->i18n->get('Active')
                     ]
                 ]
             ],
             'search' => [
                 'type' => 'text',
                 'value' => '',
-                'label' => $this->translation->get('app.contacts.filters.search.label', 'Search')
+                'label' => $this->i18n->get('Search')
             ],
             'create' => [
                 'type' => 'link',
-                'label' => $this->translation->get('app.contacts.filters.create.label', 'Create contact'),
+                'label' => $this->i18n->get('Create contact'),
                 'to' => [
                     'name' => 'contact',
                     'params' => ['id' => 'create']

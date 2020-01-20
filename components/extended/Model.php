@@ -6,10 +6,10 @@ use Yii;
 
 class Model extends \yii\base\Model
 {
-	public $translation;
-	
+    public $i18n;
+    
     public function init()
     {   
-        $this->translation = Yii::$app->translation;
+        $this->i18n = Yii::$app->i18n;
     }
 }
