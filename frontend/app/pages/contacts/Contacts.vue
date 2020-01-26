@@ -10,7 +10,7 @@
                     {{ leadsCountString(contact.leads) }}
                 </template>
                 <template #empty>
-                    {{ I18N.get('Contacts not found!') }}
+                    {{ $i18n.get('Contacts not found!') }}
                 </template>
             </snippet-items>
         </div>
@@ -55,7 +55,7 @@
         watch: {
             filters: {
                 handler: function() {
-                    Functions.local.set('contacts-filters', this.filters);
+                    this.$local.set('contacts-filters', this.filters);
                     this.getContacts();
                 },
                 deep: true
@@ -64,11 +64,11 @@
         methods: {
             getFilters: function() {
                 var self = this,
-                    local = Functions.local.get('contacts-filters');
+                    local = self.$local.get('contacts-filters');
 
                 self.loading.filters = true;
 
-                Functions.request.get('/app/contacts/filters', {}, function(responce) {
+                self.$request.get('/app/contacts/filters', {}, function(responce) {
                     if (responce.filters) {
                         self.filters = responce.filters;
 
@@ -101,7 +101,7 @@
                     });
                 }
 
-                Functions.request.get('/app/contacts', filters, function(responce) {
+                self.$request.get('/app/contacts', filters, function(responce) {
                     if (responce.contacts) {
                         self.contacts = responce.contacts;
                         self.preloader = responce.contacts.length;
@@ -113,7 +113,7 @@
                 });
             },
             leadsCountString: function(count) {
-                return I18N.get('{leads, plural, =0{No leads} =1{1 lead} other{# leads}}', {'leads': count});
+                return this.$i18n.get('{leads, plural, =0{No leads} =1{1 lead} other{# leads}}', {'leads': count});
             }
         },
         created: function() {

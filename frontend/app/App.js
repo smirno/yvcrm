@@ -1,22 +1,24 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 
-import Functions from './Functions.js';
-import I18N from './I18N.js';
-import Router from './Routes.js';
+import Functions from './helpers/Functions';
+import Request from './helpers/Request';
+import Local from './helpers/Local';
+import I18N from './helpers/I18N';
+
+import Router from './Routes';
 
 window.Functions = Functions;
-window.I18N = I18N;
 
 var Helpers = {
     install: function() {
-        Vue.prototype.Functions = Functions;
-        Vue.prototype.I18N = I18N;
+        Vue.prototype.$functions = Functions;
+        Vue.prototype.$request = Request;
+        Vue.prototype.$local = Local;
+        Vue.prototype.$i18n = I18N;
     }
 };
 
 Vue.use(Helpers);
-Vue.use(VueRouter);
 
 var App = new Vue({
     el: '#app',
@@ -27,7 +29,7 @@ var App = new Vue({
             return this.$route.name == name;
         },
         toggleTheme: function() {
-            var theme = Functions.theme();
+            var theme = this.$functions.theme();
 
             if (theme == 'dark-mode') {
                 theme = 'light-mode';
@@ -35,20 +37,19 @@ var App = new Vue({
                 theme = 'dark-mode';
             }
 
-            Functions.theme(theme);
-            Functions.local.set('app-theme', theme);
+            this.$functions.theme(theme);
+            this.$local.set('theme', theme);
         }
     },
     created: function() {
-        var theme = Functions.local.get('app-theme'),
-            language = Functions.local.get('app-language');
+        var theme = this.$local.get('theme');
 
         if (theme) {
-            Functions.theme(theme);
+            this.$functions.theme(theme);
         }
 
-        if (I18N.language === false) {
-            I18N.translation.get();
+        if (this.$i18n.language === false) {
+            this.$i18n.translation.get();
         }
     }
 });

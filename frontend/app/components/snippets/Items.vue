@@ -21,11 +21,11 @@
                         <slot name="empty"></slot>
                     </div>
                     <div class="items-item-description">
-                        {{ I18N.get('Change your search terms and try again.') }}
+                        {{ $i18n.get('Change your search terms and try again.') }}
                     </div>
                     <div v-if="search" class="items-item-action">
                         <div class="button black small">
-                            <button @click="clearSearch()">{{ I18N.get('Clear search field') }}</button>                        
+                            <button @click="clearSearch()">{{ $i18n.get('Clear search field') }}</button>                        
                         </div>
                     </div>
                 </div>

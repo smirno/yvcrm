@@ -1,4 +1,6 @@
-import FormatMessage from 'format-message';
+import Formatter from './Formatter';
+import Local from './Local';
+import Request from './Request';
 
 var I18N = {
     language: false,
@@ -6,7 +8,7 @@ var I18N = {
     translation: {
         set: function(language) {
             if (language != I18N.language.code) {
-                Functions.request.put('/app/translation', {'language': language}, function(responce) {
+                Request.put('/app/translation', {'language': language}, function(responce) {
                     if (responce.language) {
                         document.documentElement.setAttribute('lang', responce.language.code);
                     }
@@ -14,27 +16,27 @@ var I18N = {
             }
         },
         get: function() {
-            Functions.request.get('/app/translation', {}, function(responce) {
+            Request.get('/app/translation', {}, function(responce) {
                 if (responce.language && responce.messages) {
 
                     I18N.language = responce.language;
                     I18N.messages = responce.messages;
 
-                    Functions.local.set('app-language', I18N.language.code);
+                    Local.set('language', I18N.language.code);
                     console.log(I18N.language.name + ' language selected');
 
-                    FormatMessage.setup({
+                    Formatter.setup({
                         locale: I18N.language.code,
                         translations: I18N.messages
                     });
                 }
-            }, function(responce) {
+            }, function() {
                 I18N.messages = {};
             });
         }
     },
     get: function(message, params = []) {
-        return FormatMessage(message, params);
+        return Formatter(message, params);
     }
 }
 

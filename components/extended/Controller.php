@@ -60,8 +60,8 @@ class Controller extends \yii\web\Controller
 
         if ($request) {
             $request = Json::decode($request);
-            if (!empty($request['data'])) {
-                return $request['data'];
+            if (!empty($request)) {
+                return $request;
             }
         }
         

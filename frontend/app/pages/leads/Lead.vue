@@ -71,7 +71,7 @@
                     fields[field] = self.fields[field].value;
                 }
 
-                Functions.request.put('/app/leads/' + self.id, fields, function(responce) {
+                self.$request.put('/app/leads/' + self.id, fields, function(responce) {
                     if (responce) {
                         self.current = Functions.copy(self.fields);
                         self.isChanged = false;
@@ -85,9 +85,9 @@
             },
             local: function() {
                 if (this.isChanged) {
-                    Functions.local.set('lead-' + this.id, this.fields);
+                    this.$local.set('lead-' + this.id, this.fields);
                 } else {
-                    Functions.local.clear('lead-' + this.id);
+                    this.$local.clear('lead-' + this.id);
                 }
             },
             reset: function() {
@@ -100,7 +100,7 @@
         created: function() {
             var self = this;
 
-            Functions.request.get('/app/leads/' + self.id, null, function(responce) {
+            self.$request.get('/app/leads/' + self.id, null, function(responce) {
                 if (responce) {
 
                     if (responce.lead) {
@@ -113,7 +113,7 @@
                         self.loading = false;
                     }
 
-                    var local = Functions.local.get('lead-' + self.id);
+                    var local = self.$local.get('lead-' + self.id);
                     if (local) {
                         self.fields = local;
                     }

@@ -86,7 +86,7 @@
                     fields[field] = self.fields[field].value;
                 }
 
-                Functions.request.put('/app/contacts/' + self.id, fields, function(responce) {
+                self.$request.put('/app/contacts/' + self.id, fields, function(responce) {
                     if (responce) {
                         self.current = Functions.copy(self.fields);
                         self.isChanged = false;
@@ -100,9 +100,9 @@
             },
             local: function() {
                 if (this.isChanged) {
-                    Functions.local.set('contact-' + this.id, this.fields);
+                    this.$local.set('contact-' + this.id, this.fields);
                 } else {
-                    Functions.local.clear('contact-' + this.id);
+                    this.$local.clear('contact-' + this.id);
                 }
             },
             reset: function() {
@@ -115,7 +115,7 @@
         created: function() {
             var self = this;
 
-            Functions.request.get('/app/contacts/' + self.id, null, function(responce) {
+            self.$request.get('/app/contacts/' + self.id, null, function(responce) {
                 if (responce) {
 
                     self.fields = Functions.copy(responce);
@@ -124,7 +124,7 @@
 
                     document.title = 'Контакт - ' + self.fields.firstname.value + ' ' + self.fields.lastname.value;
 
-                    var local = Functions.local.get('contact-' + self.id);
+                    var local = self.$local.get('contact-' + self.id);
                     if (local) {
                         self.fields = local;
                     }

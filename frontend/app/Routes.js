@@ -1,10 +1,11 @@
+import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-var Dashboard = require('./pages/Dashboard.vue').default;
+Vue.use(VueRouter);
 
+var Dashboard = require('./pages/Dashboard.vue').default;
 var Contacts = require('./pages/contacts/Contacts.vue').default;
 var Contact = require('./pages/contacts/Contact.vue').default;
-
 var Leads = require('./pages/leads/Leads.vue').default;
 var Lead = require('./pages/leads/Lead.vue').default;
 

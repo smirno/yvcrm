@@ -39,7 +39,7 @@
         },
         created: function() {
             var self = this;
-            Functions.request.get('/app/leads', null, function(responce) {
+            self.$request.get('/app/leads', null, function(responce) {
                 if (responce) {
                     self.leads = responce;
                     self.loading = false;
