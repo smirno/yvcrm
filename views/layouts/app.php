@@ -1,6 +1,6 @@
 <?php
 
-use app\widgets\Alert;
+// use app\widgets\Alert;
 use app\assets\AppAsset;
 
 AppAsset::register($this);
@@ -9,7 +9,7 @@ $this->title = 'App';
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>" theme="light-mode">
+<html lang="<?= Yii::$app->language ?>" theme="dark-mode">
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta name="viewport" content="width=device-width, initial-scale=1">

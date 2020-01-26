@@ -60,7 +60,7 @@ class AppController extends Controller
 
     public function actionTranslation()
     {
-        return $this->renderJson(true, $this->translation->getTranslation());
+        return $this->renderJson(true, $this->i18n->getTranslation());
     }
 
     public function actionApp($render = 'false')

@@ -65,7 +65,9 @@ class ContactsController extends Controller
         $filters = $page->getFilters();
 
         if ($filters) {
-            return $this->renderJson(true, $filters);
+            return $this->renderJson(true, [
+                'filters' => $filters
+            ]);
         } else {
             return $this->renderJson(false, [
                 'message' => 'Фильтры не найдены!'
@@ -88,10 +90,12 @@ class ContactsController extends Controller
 
         $contacts = $page->getContacts($filters);
 
+        Yii::debug($contacts);
+
         if ($contacts) {
-            $list = [];
+            $items = [];
             foreach ($contacts as $contact) {
-                $list[] = [
+                $items[] = [
                     'id' => $contact->id,
                     'url' => '/contacts/' . $contact->id,
                     'fullname' => $contact->fullname,
@@ -99,12 +103,12 @@ class ContactsController extends Controller
                 ];
             }
 
-            Yii::debug($list);
-
-            return $this->renderJson(true, $list);
+            return $this->renderJson(true, [
+                'contacts' => $items
+            ]);
         } else {
             return $this->renderJson(false, [
-                'message' => 'Ни чего не найдено!'
+                'message' => $this->i18n->get('Contacts not found!')
             ]);
         }
 

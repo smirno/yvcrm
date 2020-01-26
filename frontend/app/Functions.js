@@ -1,3 +1,5 @@
+import Axios from 'axios';
+
 var Functions = {
     json: {
         encode: function(obj) {
@@ -10,16 +12,32 @@ var Functions = {
         },
         decode: function(obj) {
             return JSON.parse(obj);
+        },
+        check: function(string) {
+            try {
+                if (typeof JSON.parse(string) === 'object') {
+                    return true;
+                }
+            } catch (e) { 
+                return false;
+            }
         }
     },
     local: {
         set: function(id, data) {
-            return localStorage.setItem(id, Functions.json.encode(data));
+            if (typeof data !== 'string') {
+                data = Functions.json.encode(data);
+            }
+            return localStorage.setItem(id, data);
         },
         get: function(id) {
             var local = localStorage.getItem(id);
             if (local) {
-                return Functions.json.decode(local);
+                if (Functions.json.check(local)) {
+                    local = Functions.json.decode(local)
+                }
+
+                return local;
             }
             return false;
         },
@@ -59,7 +77,6 @@ var Functions = {
             }
 
             Axios(request).then(function (response) {
-                // console.log(response);
                 var response = response.data;
                 if (response != null) {
 
@@ -108,9 +125,18 @@ var Functions = {
     copy: function(obj) {
         return Functions.json.decode(Functions.json.encode(obj));
     },
-    declension: function(number, titles) {  
+    declension: function(number, titles) {
         var cases = [2, 0, 1, 1, 1, 2];  
-        return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];  
+        return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+    },
+    theme: function(theme = false) {
+        if (theme) {
+            if (['dark-mode', 'light-mode'].includes(theme)) {
+                return document.documentElement.setAttribute('theme', theme);
+            }
+        } else {
+            return document.documentElement.getAttribute('theme');
+        }
     }
 };
 

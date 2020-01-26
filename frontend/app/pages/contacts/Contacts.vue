@@ -1,8 +1,8 @@
 <template>
     <div id="contacts">
         <div class="content">
-            <snippet-filters :filters="filters" key-press-focus="search" size="small"></snippet-filters>
-            <snippet-items :items="contacts" :loading="loading" :preloader="preloader" link-name="contact">
+            <snippet-filters :filters="filters" :search="search" :loading="loading.contacts" size="small"></snippet-filters>
+            <snippet-items :items="contacts" :search="search" :loading="loading.contacts" :preloader="preloader" link-name="contact">
                 <template #title="{item: contact}">
                     {{ contact.fullname }}
                 </template>
@@ -10,7 +10,7 @@
                     {{ leadsCountString(contact.leads) }}
                 </template>
                 <template #empty>
-                    {{ Translation.get('app.contacts.items.not-found', 'Not found!') }}
+                    {{ I18N.get('Contacts not found!') }}
                 </template>
             </snippet-items>
         </div>
@@ -30,15 +30,33 @@
             return {
                 filters: {},
                 contacts: {},
-                loading: true,
+                loading: {
+                    contacts: true,
+                    filters: true
+                },
                 preloader: 17
+            }
+        },
+        computed: {
+            search: function() {
+                var search = false;
+
+                if (this.filters.length) {
+                    this.filters.map(function(filter) {
+                        if (filter.id == 'search') {
+                            search = filter;
+                        }
+                    });
+                }
+
+                return search;
             }
         },
         watch: {
             filters: {
                 handler: function() {
-                    this.getContacts();
                     Functions.local.set('contacts-filters', this.filters);
+                    this.getContacts();
                 },
                 deep: true
             },
@@ -48,9 +66,12 @@
                 var self = this,
                     local = Functions.local.get('contacts-filters');
 
+                self.loading.filters = true;
+
                 Functions.request.get('/app/contacts/filters', {}, function(responce) {
-                    if (responce) {
-                        self.filters = responce;
+                    if (responce.filters) {
+                        self.filters = responce.filters;
+
                         if (local) {
                             for (var filter in self.filters) {
                                 if (local[filter]) {
@@ -58,47 +79,44 @@
                                 }
                             }
                         }
+
+                        self.loading.filters = false;
                     }
                 }, function(responce) {
                     self.getContacts();
+                    self.loading.filters = false;
                 });
             },
             getContacts: function() {
                 var self = this,
                     filters = {};
 
-                self.loading = true;
+                self.loading.contacts = true;
 
-                for (var filter in self.filters) {
-                    if (self.filters[filter].value) {
-                        filters[filter] = self.filters[filter].value;
-                    }
+                if (self.filters.length) {
+                    self.filters.map(function(filter) {
+                        if (filter.value) {
+                            filters[filter.id] = filter.value;
+                        }
+                    });
                 }
 
                 Functions.request.get('/app/contacts', filters, function(responce) {
-                    if (responce) {
-                        self.contacts = responce;
-                        self.loading = false;
-                        self.preloader = self.contacts.length;
+                    if (responce.contacts) {
+                        self.contacts = responce.contacts;
+                        self.preloader = responce.contacts.length;
+                        self.loading.contacts = false;
                     }
                 }, function(responce) {
                     self.contacts = {};
-                    self.loading = false;
+                    self.loading.contacts = false;
                 });
             },
             leadsCountString: function(count) {
-                var translation = Translation.get('app.contacts.items.item.leads', ['lead', 'leads', 'leads']),
-                    declension = Functions.declension(count, translation);
-
-                if (count > 0) {
-                    return count + ' ' + declension;
-                } else {
-                    return Translation.get('app.contacts.items.item.no-leads', 'No {leads}', {'leads': declension});
-                }
+                return I18N.get('{leads, plural, =0{No leads} =1{1 lead} other{# leads}}', {'leads': count});
             }
         },
         created: function() {
-            document.title = Translation.get('app.contacts.title', 'Contacts');
             this.getFilters();
         }
     }

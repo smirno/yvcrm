@@ -15,6 +15,16 @@
                         <router-link :to="{name: 'leads'}">Сделки</router-link>
                     </div>
                 </div>
+                <div class="navigation-actions">
+                    <div class="navigation-actions-item">
+                        <div class="button black small">
+                            <button @click="toggleTheme()">
+                                &#9728;
+                                <!-- <ion-icon name="moon"></ion-icon> -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <transition name="slide-fade" mode="out-in">
                 <router-view></router-view>

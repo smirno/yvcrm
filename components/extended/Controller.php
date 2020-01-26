@@ -5,20 +5,18 @@ namespace app\components\extended;
 use Yii;
 use yii\helpers\Json;
 
-use app\components\Translation;
-
 class Controller extends \yii\web\Controller
 {
 
     public $request;
     public $response;
-    public $translation;
+    public $i18n;
 
     public function init()
     {   
         $this->request = Yii::$app->request;
         $this->response = Yii::$app->response;
-        $this->translation = Yii::$app->translation;
+        $this->i18n = Yii::$app->i18n;
 
         $this->request->csrfParam = 'csrf';
     }
@@ -30,8 +28,6 @@ class Controller extends \yii\web\Controller
                 $view = '@app/views/templates/' . $this->id . DIRECTORY_SEPARATOR . $view;
             }
             return parent::render($view, $params);
-        } else {
-            throw new InvalidCallException("Unable to resolve view file for view '$view': no active view context.");
         }
     }
 
@@ -47,7 +43,6 @@ class Controller extends \yii\web\Controller
         $response = [
             'csrf' => $this->request->csrfToken,
             'status' => $status,
-            'lang' => $this->translation->get('app.test.test', 'Hello, {username}!', ['username' => 'test']),
             'data' => $data
         ];
 

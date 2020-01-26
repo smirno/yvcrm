@@ -12,29 +12,32 @@ class ContactsPage extends Model
     public function getFilters()
     {
         $filters = [
-            'status' => [
+            [
+                'id' => 'status',
                 'type' => 'radio',
                 'value' => 1,
                 'buttons' => [
                     'all' => [
-                        'label' => $this->translation->get('app.contacts.filters.status.buttons.all', 'All')
+                        'label' => $this->i18n->get('All')
                     ],
                     '0' => [
-                        'label' => $this->translation->get('app.contacts.filters.status.buttons.archive', 'Archive')
+                        'label' => $this->i18n->get('Archive')
                     ], 
                     '1' => [
-                        'label' => $this->translation->get('app.contacts.filters.status.buttons.active', 'Active')
+                        'label' => $this->i18n->get('Active')
                     ]
                 ]
             ],
-            'search' => [
+            [
+                'id' => 'search',
                 'type' => 'text',
                 'value' => '',
-                'label' => $this->translation->get('app.contacts.filters.search.label', 'Search')
+                'label' => $this->i18n->get('Search')
             ],
-            'create' => [
+            [
+                'id' => 'create',
                 'type' => 'link',
-                'label' => $this->translation->get('app.contacts.filters.create.label', 'Create contact'),
+                'label' => $this->i18n->get('Create contact'),
                 'to' => [
                     'name' => 'contact',
                     'params' => ['id' => 'create']

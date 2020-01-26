@@ -1,11 +1,11 @@
 <template>
     <div class="filters">
-        <div class="filters-item" :class="index" v-for="(filter, index) in filters" :key="index">
+        <div class="filters-item" :class="filter.id" v-for="filter in filters" :key="filter.id">
             <template v-if="filter.type == 'radio'">
-                <field-radio :ref="index" :class="size" :field="filter"></field-radio>
+                <field-radio :ref="filter.id" :class="size" :field="filter"></field-radio>
             </template>
             <template v-else-if="filter.type == 'text'">
-                <field-text :ref="index" :class="size" clear="true" placeholder="true" :field="filter"></field-text>
+                <field-text :ref="filter.id" :class="size" clear="true" placeholder="true" :field="filter"></field-text>
             </template>
             <template v-else-if="filter.type == 'link'">
                 <router-link class="button black" :class="size" tag="div" :to="filter.to">
@@ -25,25 +25,19 @@
             'field-text': Text,
             'field-radio': Radio,
         },
-        props: [
-            'filters',
-            'key-press-focus',
-            'size'
-        ],
+        props: ['filters', 'search', 'loading', 'size'],
         methods: {
             keyPress: function() {
-                this.$refs[this.keyPressFocus][0].focus();
+                if (this.search) {
+                    this.$refs[this.search.id][0].focus();
+                }
             }
         },
         mounted: function() {
-            if (this.keyPressFocus != undefined) {
-                window.addEventListener('keypress', this.keyPress);
-            }
+            window.addEventListener('keypress', this.keyPress);
         },
         beforeDestroy: function() {
-            if (this.keyPressFocus != undefined) {
-                window.removeEventListener('keypress', this.keyPress);
-            }
+            window.removeEventListener('keypress', this.keyPress);
         }
     }
 </script>
