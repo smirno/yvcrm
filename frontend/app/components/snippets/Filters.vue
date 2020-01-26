@@ -1,11 +1,11 @@
 <template>
     <div class="filters">
-        <div class="filters-item" :class="index" v-for="(filter, index) in filters" :key="index">
+        <div class="filters-item" :class="filter.id" v-for="filter in filters" :key="filter.id">
             <template v-if="filter.type == 'radio'">
-                <field-radio :ref="index" :class="size" :field="filter"></field-radio>
+                <field-radio :ref="filter.id" :class="size" :field="filter"></field-radio>
             </template>
             <template v-else-if="filter.type == 'text'">
-                <field-text :ref="index" :class="size" clear="true" placeholder="true" :field="filter"></field-text>
+                <field-text :ref="filter.id" :class="size" clear="true" placeholder="true" :field="filter"></field-text>
             </template>
             <template v-else-if="filter.type == 'link'">
                 <router-link class="button black" :class="size" tag="div" :to="filter.to">
@@ -25,23 +25,11 @@
             'field-text': Text,
             'field-radio': Radio,
         },
-        props: [
-            'filters',
-            'size'
-        ],
-        computed: {
-            search: function() {
-                if (this.filters.search != undefined) {
-                    return true;
-                }
-
-                return false;
-            }
-        },
+        props: ['filters', 'search', 'loading', 'size'],
         methods: {
             keyPress: function() {
                 if (this.search) {
-                    this.$refs.search[0].focus();
+                    this.$refs[this.search.id][0].focus();
                 }
             }
         },

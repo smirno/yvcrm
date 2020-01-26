@@ -12,7 +12,8 @@ class ContactsPage extends Model
     public function getFilters()
     {
         $filters = [
-            'status' => [
+            [
+                'id' => 'status',
                 'type' => 'radio',
                 'value' => 1,
                 'buttons' => [
@@ -27,12 +28,14 @@ class ContactsPage extends Model
                     ]
                 ]
             ],
-            'search' => [
+            [
+                'id' => 'search',
                 'type' => 'text',
                 'value' => '',
                 'label' => $this->i18n->get('Search')
             ],
-            'create' => [
+            [
+                'id' => 'create',
                 'type' => 'link',
                 'label' => $this->i18n->get('Create contact'),
                 'to' => [

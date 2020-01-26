@@ -1,8 +1,8 @@
 <template>
     <div id="contacts">
         <div class="content">
-            <snippet-filters :filters="filters" size="small"></snippet-filters>
-            <snippet-items :items="contacts" :search="search" :loading="loading" :preloader="preloader" link-name="contact">
+            <snippet-filters :filters="filters" :search="search" :loading="loading.contacts" size="small"></snippet-filters>
+            <snippet-items :items="contacts" :search="search" :loading="loading.contacts" :preloader="preloader" link-name="contact">
                 <template #title="{item: contact}">
                     {{ contact.fullname }}
                 </template>
@@ -30,24 +30,33 @@
             return {
                 filters: {},
                 contacts: {},
-                loading: true,
+                loading: {
+                    contacts: true,
+                    filters: true
+                },
                 preloader: 17
             }
         },
         computed: {
             search: function() {
-                if (this.filters.search != undefined) {
-                    return this.filters.search;
+                var search = false;
+
+                if (this.filters.length) {
+                    this.filters.map(function(filter) {
+                        if (filter.id == 'search') {
+                            search = filter;
+                        }
+                    });
                 }
 
-                return false;
+                return search;
             }
         },
         watch: {
             filters: {
                 handler: function() {
-                    this.getContacts();
                     Functions.local.set('contacts-filters', this.filters);
+                    this.getContacts();
                 },
                 deep: true
             },
@@ -57,9 +66,12 @@
                 var self = this,
                     local = Functions.local.get('contacts-filters');
 
+                self.loading.filters = true;
+
                 Functions.request.get('/app/contacts/filters', {}, function(responce) {
                     if (responce.filters) {
                         self.filters = responce.filters;
+
                         if (local) {
                             for (var filter in self.filters) {
                                 if (local[filter]) {
@@ -67,32 +79,37 @@
                                 }
                             }
                         }
+
+                        self.loading.filters = false;
                     }
                 }, function(responce) {
                     self.getContacts();
+                    self.loading.filters = false;
                 });
             },
             getContacts: function() {
                 var self = this,
                     filters = {};
 
-                self.loading = true;
+                self.loading.contacts = true;
 
-                for (var filter in self.filters) {
-                    if (self.filters[filter].value) {
-                        filters[filter] = self.filters[filter].value;
-                    }
+                if (self.filters.length) {
+                    self.filters.map(function(filter) {
+                        if (filter.value) {
+                            filters[filter.id] = filter.value;
+                        }
+                    });
                 }
 
                 Functions.request.get('/app/contacts', filters, function(responce) {
                     if (responce.contacts) {
                         self.contacts = responce.contacts;
                         self.preloader = responce.contacts.length;
-                        self.loading = false;
+                        self.loading.contacts = false;
                     }
                 }, function(responce) {
                     self.contacts = {};
-                    self.loading = false;
+                    self.loading.contacts = false;
                 });
             },
             leadsCountString: function(count) {

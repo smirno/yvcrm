@@ -20,6 +20,7 @@ var I18N = {
                     I18N.language = responce.language;
                     I18N.messages = responce.messages;
 
+                    Functions.local.set('app-language', I18N.language.code);
                     console.log(I18N.language.name + ' language selected');
 
                     FormatMessage.setup({

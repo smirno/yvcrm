@@ -12,7 +12,7 @@
                 </router-link>
             </template>
             <template v-else>
-                <div v-for="item in 5" class="items-item loading">
+                <div v-for="item in 5" :key="'empty-top-' + item" class="items-item loading">
                     <span></span>
                     <span></span>
                 </div>
@@ -29,14 +29,14 @@
                         </div>
                     </div>
                 </div>
-                <div v-for="item in 10" class="items-item loading">
+                <div v-for="item in 10" :key="'empty-bottom-' + item" class="items-item loading">
                     <span></span>
                     <span></span>
                 </div>
             </template>
         </div>
         <div v-else key="loading" class="items">
-            <div v-for="item in preloader" class="items-item loading">
+            <div v-for="item in preloader" :key="'loading-' + item" class="items-item loading">
                 <span></span>
                 <span></span>
             </div>
@@ -46,13 +46,7 @@
 
 <script>
     export default {
-        props: [
-            'items',
-            'search',
-            'loading',
-            'preloader',
-            'link-name'
-        ],
+        props: ['items', 'search', 'loading', 'preloader', 'link-name'],
         methods: {
             clearSearch: function() {
                 if (this.search) {

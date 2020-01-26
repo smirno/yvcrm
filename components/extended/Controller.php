@@ -28,8 +28,6 @@ class Controller extends \yii\web\Controller
                 $view = '@app/views/templates/' . $this->id . DIRECTORY_SEPARATOR . $view;
             }
             return parent::render($view, $params);
-        } else {
-            throw new InvalidCallException("Unable to resolve view file for view '$view': no active view context.");
         }
     }
 
@@ -40,12 +38,6 @@ class Controller extends \yii\web\Controller
 
     public function renderJson($status, $data)
     {
-        // if ($status === true) {
-        //     $status = 200;
-        // } else if(!is_int($status)) {
-        //     $status = 404;
-        // }
-        
         $this->response->format = $this->response::FORMAT_JSON;
 
         $response = [

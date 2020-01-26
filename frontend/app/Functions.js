@@ -12,16 +12,32 @@ var Functions = {
         },
         decode: function(obj) {
             return JSON.parse(obj);
+        },
+        check: function(string) {
+            try {
+                if (typeof JSON.parse(string) === 'object') {
+                    return true;
+                }
+            } catch (e) { 
+                return false;
+            }
         }
     },
     local: {
         set: function(id, data) {
-            return localStorage.setItem(id, Functions.json.encode(data));
+            if (typeof data !== 'string') {
+                data = Functions.json.encode(data);
+            }
+            return localStorage.setItem(id, data);
         },
         get: function(id) {
             var local = localStorage.getItem(id);
             if (local) {
-                return Functions.json.decode(local);
+                if (Functions.json.check(local)) {
+                    local = Functions.json.decode(local)
+                }
+
+                return local;
             }
             return false;
         },

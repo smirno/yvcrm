@@ -36,12 +36,16 @@ var App = new Vue({
             }
 
             Functions.theme(theme);
+            Functions.local.set('app-theme', theme);
         }
     },
     created: function() {
+        var theme = Functions.local.get('app-theme'),
+            language = Functions.local.get('app-language');
 
-        // Включить темную тему
-        Functions.theme('dark-mode');
+        if (theme) {
+            Functions.theme(theme);
+        }
 
         if (I18N.language === false) {
             I18N.translation.get();
