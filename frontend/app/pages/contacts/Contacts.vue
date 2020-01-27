@@ -1,8 +1,8 @@
 <template>
     <div id="contacts">
         <div class="content">
-            <snippet-filters :filters="filters" :search="search" :loading="loading.contacts" size="small"></snippet-filters>
-            <snippet-items :items="contacts" :search="search" :loading="loading.contacts" :preloader="preloader" link-name="contact">
+            <snippet-filters :filters="filters" :search="search" size="small"></snippet-filters>
+            <snippet-items :items="contacts.items" :search="search" :loading="contacts.loading" :preloader="contacts.preloader" link-name="contact">
                 <template #title="{item: contact}">
                     {{ contact.fullname }}
                 </template>
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+    import { mapState, mapActions } from 'vuex';
+
     import Filters from './../../components/snippets/Filters';
     import Items from './../../components/snippets/Items';
 
@@ -26,18 +28,11 @@
             'snippet-filters': Filters,
             'snippet-items': Items,
         },
-        data() {
-            return {
-                filters: {},
-                contacts: {},
-                loading: {
-                    contacts: true,
-                    filters: true
-                },
-                preloader: 17
-            }
-        },
         computed: {
+            ...mapState({
+                filters: 'filters',
+                contacts: 'contacts'
+            }),
             search: function() {
                 var search = false;
 
@@ -62,62 +57,21 @@
             },
         },
         methods: {
-            getFilters: function() {
-                var self = this,
-                    local = self.$local.get('contacts-filters');
-
-                self.loading.filters = true;
-
-                self.$request.get('/app/contacts/filters', {}, function(responce) {
-                    if (responce.filters) {
-                        self.filters = responce.filters;
-
-                        if (local) {
-                            for (var filter in self.filters) {
-                                if (local[filter]) {
-                                    self.filters[filter].value = local[filter].value;
-                                }
-                            }
-                        }
-
-                        self.loading.filters = false;
-                    }
-                }, function(responce) {
-                    self.getContacts();
-                    self.loading.filters = false;
-                });
-            },
-            getContacts: function() {
-                var self = this,
-                    filters = {};
-
-                self.loading.contacts = true;
-
-                if (self.filters.length) {
-                    self.filters.map(function(filter) {
-                        if (filter.value) {
-                            filters[filter.id] = filter.value;
-                        }
-                    });
-                }
-
-                self.$request.get('/app/contacts', filters, function(responce) {
-                    if (responce.contacts) {
-                        self.contacts = responce.contacts;
-                        self.preloader = responce.contacts.length;
-                        self.loading.contacts = false;
-                    }
-                }, function(responce) {
-                    self.contacts = {};
-                    self.loading.contacts = false;
-                });
-            },
+            ...mapActions({
+                initContacts: 'init',
+                getContacts: 'getContacts'
+            }),
             leadsCountString: function(count) {
                 return this.$i18n.get('{leads, plural, =0{No leads} =1{1 lead} other{# leads}}', {'leads': count});
             }
         },
         created: function() {
-            this.getFilters();
+            if (!this.filters.length) {
+                this.initContacts();
+            }
+            if (this.contacts.update < Date.now() - 30000) {
+                this.getContacts()
+            }
         }
     }
 </script>

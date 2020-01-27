@@ -1,11 +1,12 @@
 import Vue from 'vue';
 
+import Router from './Routes';
+import Store from './Store';
+
 import Functions from './helpers/Functions';
 import Request from './helpers/Request';
 import Local from './helpers/Local';
 import I18N from './helpers/I18N';
-
-import Router from './Routes';
 
 window.Functions = Functions;
 
@@ -23,6 +24,7 @@ Vue.use(Helpers);
 var App = new Vue({
     el: '#app',
     router: Router,
+    store: Store,
     data: {},
     methods: {
         isActive: function(name) {

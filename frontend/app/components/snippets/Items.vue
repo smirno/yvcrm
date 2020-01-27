@@ -1,7 +1,7 @@
 <template>
     <transition name="fade" mode="out-in">
         <div v-if="!loading" key="items" class="items">
-            <template v-if="items.length">
+            <template v-if="items">
                 <router-link v-for="item in items" :key="item.id" :to="{name: linkName, params: { id: item.id }}" class="items-item">
                     <div class="items-item-title">
                         <slot name="title" :item="item"></slot>
