@@ -13,7 +13,7 @@ var Store = new Vuex.Store({
         contacts: {
             update: 0,
             loading: true,
-            preloader: 17,
+            preloader: 20,
             items: false,
         }
     },
@@ -22,10 +22,16 @@ var Store = new Vuex.Store({
             state.filters = filters;
         },
         contacts: function(state, contacts) {
+            var preloader = Object.keys(contacts).length;
+
+            if (!preloader) {
+                preloader = state.contacts.preloader;
+            }
+
             state.contacts.loading = false;
             state.contacts.update = Date.now();
             state.contacts.items = contacts;
-            state.contacts.preloader = contacts.length;
+            state.contacts.preloader = preloader;
         }
     },
     getters: {
@@ -42,11 +48,10 @@ var Store = new Vuex.Store({
             context.dispatch('getContacts');
         },
         getFilters: async function(context) {
-            var local = Local.get('contacts-filters');
-
             Request.get('/app/contacts/filters', {}, function(responce) {
                 if (responce.filters) {
-                    var filters = responce.filters;
+                    var filters = responce.filters,
+                        local = Local.get('contacts-filters');
 
                     if (local) {
                         for (var filter in filters) {

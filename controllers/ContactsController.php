@@ -91,6 +91,7 @@ class ContactsController extends Controller
         $contacts = $page->getContacts($filters);
 
         Yii::debug($contacts);
+        sleep(1);
 
         if ($contacts) {
             $items = [];
