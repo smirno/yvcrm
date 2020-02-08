@@ -9,7 +9,7 @@
             </template>
             <template v-else-if="filter.type == 'link'">
                 <router-link class="button black" :class="size" tag="div" :to="filter.to">
-                    <button>{{ filter.label }}</button>
+                    <button>{{ $i18n.get(filter.label) }}</button>
                 </router-link>
             </template>
         </div>

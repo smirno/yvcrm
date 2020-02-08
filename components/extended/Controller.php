@@ -7,11 +7,13 @@ use yii\helpers\Json;
 
 class Controller extends \yii\web\Controller
 {
-
     public $request;
     public $response;
     public $i18n;
 
+    /**
+     * {@inheritdoc}
+     */
     public function init()
     {   
         $this->request = Yii::$app->request;
@@ -21,22 +23,29 @@ class Controller extends \yii\web\Controller
         $this->request->csrfParam = 'csrf';
     }
 
-    public function render($view, $params = [])
+    /**
+     * Отрисовать каркас фронтенд приложения
+     * 
+     * @param array $render входные данные
+     * @return string
+     */
+    public function renderApp(array $render = [])
     {
-        if ($this != null) {
-            if ($this->id != 'default') {
-                $view = '@app/views/templates/' . $this->id . DIRECTORY_SEPARATOR . $view;
-            }
-            return parent::render($view, $params);
-        }
+        $render['csfr'] = $this->request->getCsrfToken();
+        $render['translation'] = $this->i18n->getTranslation();
+        $render['filters'] = $this->i18n->getTranslation();
+
+        return $this->render('/app/app', ['render' => Json::encode($render)]);
     }
 
-    public function renderApp($render = 'false')
-    {
-        return parent::render('@app/views/templates/app/app', ['render' => $render]);
-    }
-
-    public function renderJson($status, $data)
+    /**
+     * Отправить JSON данные пользователю
+     * 
+     * @param int $status статус запроса
+     * @param array $data массив данных
+     * @return array
+     */
+    public function renderJson(int $status, array $data = [])
     {
         $this->response->format = $this->response::FORMAT_JSON;
 
@@ -49,11 +58,21 @@ class Controller extends \yii\web\Controller
         return $response;
     }
 
+    /**
+     * Получить метод запроса
+     * 
+     * @return string метод
+     */
     public function getMethod()
     {
         return $this->request->method;
     }
 
+    /**
+     * Получить данные запроса
+     * 
+     * @return array|false
+     */
     public function getData()
     {
         $request = $this->request->getRawBody();
@@ -68,6 +87,11 @@ class Controller extends \yii\web\Controller
         return false;
     }
 
+    /**
+     * Проверяет AJAX запрос или нет
+     * 
+     * @return bool
+     */
     public function isAjax()
     {
         return $this->request->isAjax;

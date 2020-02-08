@@ -7,7 +7,6 @@ use Yii;
 class I18N extends \yii\i18n\I18N
 {   
     const CATEGORY = 'app';
-
     const LANGUAGES = [
         'ru-RU' => [
             'name' => 'Russian',
@@ -45,7 +44,7 @@ class I18N extends \yii\i18n\I18N
         $source = $this->getMessageSource(self::CATEGORY);
 
         if ($source) {
-            $messages = require_once Yii::getAlias($source->basePath . DS . $language . DS . self::CATEGORY) . '.php';
+            $messages = require(Yii::getAlias($source->basePath . DS . $language . DS . self::CATEGORY) . '.php');
 
             if ($messages) {
 

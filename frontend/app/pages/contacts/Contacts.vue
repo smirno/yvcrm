@@ -29,7 +29,7 @@
             'snippet-items': Items,
         },
         computed: {
-            ...mapState({
+            ...mapState('contacts', {
                 filters: 'filters',
                 contacts: 'contacts'
             }),
@@ -57,7 +57,7 @@
             },
         },
         methods: {
-            ...mapActions({
+            ...mapActions('contacts', {
                 initContacts: 'init',
                 getContacts: 'getContacts'
             }),

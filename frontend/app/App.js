@@ -50,8 +50,11 @@ var App = new Vue({
             this.$functions.theme(theme);
         }
 
-        if (this.$i18n.language === false) {
-            this.$i18n.translation.get();
+        if (Render != undefined) {
+
+            if (Render.translation) {
+                this.$i18n.translation.set(Render.translation);
+            }
         }
     }
 });

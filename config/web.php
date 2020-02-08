@@ -14,9 +14,6 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-        'view' => [
-            'class' => 'app\components\extended\View',
-        ],
         'controller' => [
             'class' => 'app\components\extended\Controller',
         ],
