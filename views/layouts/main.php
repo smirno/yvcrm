@@ -1,8 +1,6 @@
 <?php
 
-use yii\helpers\Html;
 use app\assets\SiteAsset;
-use app\widgets\Alert;
 
 SiteAsset::register($this);
 ?>
@@ -20,17 +18,10 @@ SiteAsset::register($this);
         <?php $this->beginBody() ?>
         <div id="app" class="wrap">
             <div class="container">
-                <?= Alert::widget() ?>
                 <?= $content ?>
             </div>
         </div>
         <?php $this->endBody() ?>
-        <script>
-            var csrf = {
-                param: '<?= $this->request->csrfParam ?>',
-                token: '<?= $this->request->csrfToken ?>'
-            }
-        </script>
     </body>
 </html>
 <?php $this->endPage() ?>

@@ -5,10 +5,12 @@
             ref="input"
             :type="field.type"
             :class="{'not-empty': field.value != ''}"
-            :placeholder="placeholder ? field.label : false"
+            :placeholder="placeholder ? $i18n.get(field.label) : false"
         >
         <div v-if="clear && field.value" @click="field.value = ''" class="field-clear"></div>
-        <label v-if="label">{{field.label}}</label>
+        <label v-if="label">
+            {{ $i18n.get(field.label) }}
+        </label>
     </div>
 </template>
 

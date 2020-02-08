@@ -1,5 +1,5 @@
     <script>
-        var CSFR = '<?php echo $this->request->csrfToken ?>';
+        var Render = <?php echo $render ?>;
     </script>
     <div id="app">
         <div class="container">

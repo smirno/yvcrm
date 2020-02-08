@@ -18,13 +18,13 @@ class ContactsPage extends Model
                 'value' => 1,
                 'buttons' => [
                     'all' => [
-                        'label' => $this->i18n->get('All')
+                        'label' => 'All'
                     ],
                     '0' => [
-                        'label' => $this->i18n->get('Archive')
+                        'label' => 'Archive'
                     ], 
                     '1' => [
-                        'label' => $this->i18n->get('Active')
+                        'label' => 'Active'
                     ]
                 ]
             ],
@@ -32,12 +32,12 @@ class ContactsPage extends Model
                 'id' => 'search',
                 'type' => 'text',
                 'value' => '',
-                'label' => $this->i18n->get('Search')
+                'label' => 'Search'
             ],
             [
                 'id' => 'create',
                 'type' => 'link',
-                'label' => $this->i18n->get('Create contact'),
+                'label' => 'Create contact',
                 'to' => [
                     'name' => 'contact',
                     'params' => ['id' => 'create']

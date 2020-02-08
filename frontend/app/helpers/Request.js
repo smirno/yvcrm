@@ -16,7 +16,7 @@ var Request = {
     axios: function(url, method, success, error, data = null) {
 
         Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-        Axios.defaults.headers.common['X-CSRF-Token'] = CSFR;
+        Axios.defaults.headers.common['X-CSRF-Token'] = Render.csfr;
 
         var request = {
             url: url,
@@ -36,7 +36,7 @@ var Request = {
             if (response != null) {
 
                 if (response.csrf) {
-                    CSFR = response.csrf;
+                    Render.csfr = response.csrf;
                 }
 
                 if (response.status) {

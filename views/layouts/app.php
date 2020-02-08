@@ -1,6 +1,5 @@
 <?php
 
-// use app\widgets\Alert;
 use app\assets\AppAsset;
 
 AppAsset::register($this);

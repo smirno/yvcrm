@@ -7,7 +7,7 @@
                 v-for="(button, index) in field.buttons" 
                 :class="{'active': field.value == index}" 
                 :key="index">
-                {{ button.label }}
+                {{ $i18n.get(button.label) }}
             </button>
         </div>
     </div>

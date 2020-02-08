@@ -91,11 +91,12 @@ class ContactsController extends Controller
         $contacts = $page->getContacts($filters);
 
         Yii::debug($contacts);
+        // sleep(1);
 
         if ($contacts) {
             $items = [];
             foreach ($contacts as $contact) {
-                $items[] = [
+                $items[$contact->id] = [
                     'id' => $contact->id,
                     'url' => '/contacts/' . $contact->id,
                     'fullname' => $contact->fullname,
