@@ -5,6 +5,8 @@ namespace app\components\extended;
 use Yii;
 use yii\helpers\Json;
 
+use app\models\ContactsPage;
+
 class Controller extends \yii\web\Controller
 {
     public $request;
@@ -33,7 +35,9 @@ class Controller extends \yii\web\Controller
     {
         $render['csfr'] = $this->request->getCsrfToken();
         $render['translation'] = $this->i18n->getTranslation();
-        $render['filters'] = $this->i18n->getTranslation();
+        $render['contacts'] = [
+            'filters' => ContactsPage::getFilters()
+        ];
 
         return $this->render('/app/app', ['render' => Json::encode($render)]);
     }
@@ -41,11 +45,11 @@ class Controller extends \yii\web\Controller
     /**
      * Отправить JSON данные пользователю
      * 
-     * @param int $status статус запроса
+     * @param bool $status статус запроса
      * @param array $data массив данных
      * @return array
      */
-    public function renderJson(int $status, array $data = [])
+    public function renderJson(bool $status, array $data = [])
     {
         $this->response->format = $this->response::FORMAT_JSON;
 

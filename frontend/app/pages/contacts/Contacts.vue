@@ -2,7 +2,7 @@
     <div id="contacts">
         <div class="content">
             <snippet-filters :filters="filters" :search="search" size="small"></snippet-filters>
-            <snippet-items :items="contacts.items" :search="search" :loading="contacts.loading" :preloader="contacts.preloader" link-name="contact">
+            <snippet-items :items="items" :search="search" :loading="loading" :preloader="preloader" link-name="contact">
                 <template #title="{item: contact}">
                     {{ contact.fullname }}
                 </template>
@@ -29,19 +29,22 @@
             'snippet-items': Items,
         },
         computed: {
-            ...mapState('contacts', {
-                filters: 'filters',
-                contacts: 'contacts'
-            }),
+            ...mapState('contacts', [
+                'update',
+                'loading',
+                'preloader',
+                'filters',
+                'items'
+            ]),
             search: function() {
                 var search = false;
 
-                if (this.filters.length) {
-                    this.filters.map(function(filter) {
+                if (this.filters) {
+                    for (var [index, filter] of Object.entries(this.filters)) {
                         if (filter.id == 'search') {
                             search = filter;
                         }
-                    });
+                    }
                 }
 
                 return search;
@@ -50,7 +53,6 @@
         watch: {
             filters: {
                 handler: function() {
-                    this.$local.set('contacts-filters', this.filters);
                     this.getContacts();
                 },
                 deep: true
@@ -58,7 +60,6 @@
         },
         methods: {
             ...mapActions('contacts', {
-                initContacts: 'init',
                 getContacts: 'getContacts'
             }),
             leadsCountString: function(count) {
@@ -66,11 +67,8 @@
             }
         },
         created: function() {
-            if (!this.filters.length) {
-                this.initContacts();
-            }
-            if (this.contacts.update < Date.now() - 30000) {
-                this.getContacts()
+            if (this.update < Date.now() - 30000) {
+                this.getContacts();
             }
         }
     }

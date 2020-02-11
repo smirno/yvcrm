@@ -1,6 +1,6 @@
 <template>
     <div class="filters">
-        <div class="filters-item" :class="filter.id" v-for="filter in filters" :key="filter.id">
+        <div class="filters-item" v-for="filter in filters" :key="filter.id" :class="filter.id">
             <template v-if="filter.type == 'radio'">
                 <field-radio :ref="filter.id" :class="size" :field="filter"></field-radio>
             </template>
@@ -25,7 +25,7 @@
             'field-text': Text,
             'field-radio': Radio,
         },
-        props: ['filters', 'search', 'loading', 'size'],
+        props: ['filters', 'search', 'size'],
         methods: {
             keyPress: function() {
                 if (this.search) {

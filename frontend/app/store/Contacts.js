@@ -4,75 +4,51 @@ import Local from './../helpers/Local';
 var Contacts = {
     namespaced: true,
     state: {
-        filters: {},
-        contacts: {
-            update: 0,
-            loading: true,
-            preloader: 20,
-            items: false,
-        }
+        update: 0,
+        loading: true,
+        preloader: 20,
+        filters: false,
+        items: false,
     },
     mutations: {
         filters: function(state, filters) {
+            var local = Local.get('contacts-filters');
+
+            if (local) {
+                for (var [filter, value] of Object.entries(local)) {
+                    filters[filter].value = value;
+                }
+            }
+
             state.filters = filters;
         },
         contacts: function(state, contacts) {
             var preloader = Object.keys(contacts).length;
 
             if (!preloader) {
-                preloader = state.contacts.preloader;
+                preloader = state.preloader;
             }
 
-            state.contacts.loading = false;
-            state.contacts.update = Date.now();
-            state.contacts.items = contacts;
-            state.contacts.preloader = preloader;
-        }
-    },
-    getters: {
-        contacts: function(state) {
-            return state.contacts;
-        },
-        filters: function(state) {
-            return state.filters;
+            state.loading = false;
+            state.update = Date.now();
+            state.items = contacts;
+            state.preloader = preloader;
         }
     },
     actions: {
-        init: function(context) {
-            context.dispatch('getFilters');
-            context.dispatch('getContacts');
-        },
-        getFilters: async function(context) {
-            Request.get('/app/contacts/filters', {}, function(responce) {
-                if (responce.filters) {
-                    var filters = responce.filters,
-                        local = Local.get('contacts-filters');
-
-                    if (local) {
-                        for (var filter in filters) {
-                            if (local[filter]) {
-                                filters[filter].value = local[filter].value;
-                            }
-                        }
-                    }
-
-                    context.commit('filters', filters);
-                }
-            }, function() {
-                context.commit('filters', {});
-            });
-        },
         getContacts: function(context) {
-            if (context.state.filters.length) {
+            if (context.state.filters) {
                 var filters = {};
 
-                context.state.filters.map(function(filter) {
+                for (var [index, filter] of Object.entries(context.state.filters)) {
                     if (filter.value) {
                         filters[filter.id] = filter.value;
                     }
-                });
+                }
 
-                context.state.contacts.loading = true;
+                Local.set('contacts-filters', filters);
+
+                context.state.loading = true;
 
                 Request.get('/app/contacts', filters, function(responce) {
                     if (responce.contacts) {

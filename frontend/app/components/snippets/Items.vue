@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-for="item in 10" :key="'empty-bottom-' + item" class="items-item loading">
+                <div v-for="item in 13" :key="'empty-bottom-' + item" class="items-item loading">
                     <span></span>
                     <span></span>
                 </div>

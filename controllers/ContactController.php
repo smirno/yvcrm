@@ -87,7 +87,7 @@ class ContactController extends Controller
                 return $this->renderJson(true, $return);
 
             } else {
-                return $this->renderJson(false, 'error');
+                return $this->renderJson(false);
             }
         }
         

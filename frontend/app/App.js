@@ -44,17 +44,18 @@ var App = new Vue({
         }
     },
     created: function() {
-        var theme = this.$local.get('theme');
-
-        if (theme) {
-            this.$functions.theme(theme);
-        }
-
         if (Render != undefined) {
-
             if (Render.translation) {
                 this.$i18n.translation.set(Render.translation);
             }
+            if (Render.contacts) {
+                this.$store.commit('contacts/filters', Render.contacts.filters);
+            }
+        }
+
+        var theme = this.$local.get('theme');
+        if (theme) {
+            this.$functions.theme(theme);
         }
     }
 });

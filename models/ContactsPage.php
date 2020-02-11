@@ -9,10 +9,10 @@ use app\models\base\Contact;
 
 class ContactsPage extends Model
 {
-    public function getFilters()
+    static function getFilters()
     {
         $filters = [
-            [
+            'status' => [
                 'id' => 'status',
                 'type' => 'radio',
                 'value' => 1,
@@ -28,13 +28,13 @@ class ContactsPage extends Model
                     ]
                 ]
             ],
-            [
+            'search' => [
                 'id' => 'search',
                 'type' => 'text',
                 'value' => '',
                 'label' => 'Search'
             ],
-            [
+            'create' => [
                 'id' => 'create',
                 'type' => 'link',
                 'label' => 'Create contact',
