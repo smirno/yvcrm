@@ -189,7 +189,7 @@ body {
             align-items: normal;
             margin: 10px -5px 0;
             
-            &-item {
+            .item {
                 flex: 1 1 calc((100% - 60px) / 4);
                 max-width: calc((100% - 40px) / 4);
                 padding: 20px;
@@ -224,25 +224,25 @@ body {
                     }
                 }
 
-                &.not-empty {
+                &.not-found {
                     flex: 0 0 calc((100% - 15px) / 2);
                     max-width: calc((100% - 15px) / 2);
                     display: flex;
                     flex-flow: column;
                     text-align: center;
 
-                    .items-item-action {
+                    .action {
                         margin: 10px auto 0;
                         width: 200px;
                     }
                 }
 
-                &-title {
+                .title {
                     font-size: 16px;
                     font-weight: 400;
                 }
 
-                &-description {
+                .description {
                     font-size: 14px;
                     font-weight: 400;
                     opacity: 0.5;
@@ -251,7 +251,7 @@ body {
         }
 
         .sidebar {
-            width: 400px;
+            width: 350px;
             background-color: var(--block-background-color);
             color: var(--block-font-color);
             margin: 10px 0 0;

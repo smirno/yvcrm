@@ -19,8 +19,9 @@ Mix.manifest.refresh = function() {
 mix.setPublicPath('web/assets/');
 mix.setResourceRoot('../');
 
+mix.less('frontend/assets/vendor.less', 'web/assets/css/vendor.css');
+mix.less('frontend/assets/app.less', 'web/assets/css/app.css');
+
 mix.js('frontend/app/App.js', 'web/assets/js/app.js').extract([
 	'vue', 'vuex', 'vue-router', 'axios', 'format-message'
 ]);
-mix.less('frontend/assets/vendor.less', 'web/assets/css/vendor.css');
-mix.less('frontend/assets/app.less', 'web/assets/css/app.css');

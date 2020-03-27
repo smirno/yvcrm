@@ -95,6 +95,7 @@ class ContactsController extends Controller
 
         if ($contacts) {
             $items = [];
+            
             foreach ($contacts as $contact) {
                 $items[$contact->id] = [
                     'id' => $contact->id,

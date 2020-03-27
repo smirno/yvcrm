@@ -2,5 +2,7 @@
 /node_modules
 /config/db.php
 /web/assets
-composer.phar
+/composer.lock
+/package-lock.json
+/composer.phar
 .DS_Store
